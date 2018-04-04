@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.llong.football"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary= true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+project.ext {
+    appcompat = "26.1.0"
+    rxandroid = "2.0.1"
+    constraint = "1.0.2"
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.android.support:support-v4:$project.appcompat"
+    implementation "com.android.support:appcompat-v7:$project.appcompat"
+    implementation "com.android.support:design:$project.appcompat"
+    implementation "com.android.support:support-vector-drawable:$project.appcompat"
+
+    implementation "com.android.support.constraint:constraint-layout:$project.constraint"
+
+    implementation "io.reactivex.rxjava2:rxandroid:$project.rxandroid"
+    implementation "io.reactivex.rxjava2:rxjava:$project.rxandroid"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
