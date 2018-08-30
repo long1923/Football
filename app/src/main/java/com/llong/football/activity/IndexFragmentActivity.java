@@ -1,4 +1,4 @@
-package com.llong.football;
+package com.llong.football.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import com.llong.football.R;
 
 /**
  * tab页面框架

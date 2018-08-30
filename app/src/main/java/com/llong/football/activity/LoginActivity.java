@@ -1,9 +1,10 @@
-package com.llong.football;
+package com.llong.football.activity;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.llong.football.R;
 import com.llong.football.databinding.ActivityLoginBinding;
 
 /**

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.llong.football.LoginActivity" />
+            type="com.llong.football.activity.LoginActivity" />
     </data>
 
     <RelativeLayout
