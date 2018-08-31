@@ -25,6 +25,10 @@ public class ApiRepository {
     @Inject
     HttpService httpService;
 
+    @Inject
+    public ApiRepository() {
+    }
+
     public void login(Observer observer, String username){
 
         httpService.login(username)

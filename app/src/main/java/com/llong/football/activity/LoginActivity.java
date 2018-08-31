@@ -5,20 +5,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.llong.football.R;
-import com.llong.football.databinding.ActivityLoginBinding;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends BaseActivity{
 
-    ActivityLoginBinding binding;
+//    ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= DataBindingUtil.setContentView(this, R.layout.activity_login);
-        binding.setViewModel(this);
+//        binding= DataBindingUtil.setContentView(this, R.layout.activity_login);
+//        binding.setViewModel(this);
     }
 
 }

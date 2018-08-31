@@ -12,10 +12,10 @@ import com.llong.football.databinding.ActivityMainBinding;
 
 import javax.inject.Inject;
 
-import rx.Observer;
+import dagger.android.AndroidInjection;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
 
     @Inject

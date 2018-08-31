@@ -1,6 +1,8 @@
 package com.llong.football.di;
 
 import com.google.gson.Gson;
+import com.llong.football.activity.BaseActivity;
+import com.llong.football.api.ApiRepository;
 import com.llong.football.http.HttpService;
 
 import java.util.concurrent.TimeUnit;
@@ -44,4 +46,5 @@ public class HttpModule {
     public HttpService providesHttpService(Retrofit retrofit){
         return retrofit.create(HttpService.class);
     }
+
 }
