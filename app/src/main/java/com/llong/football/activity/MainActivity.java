@@ -9,6 +9,7 @@ import android.view.View;
 import com.llong.football.R;
 import com.llong.football.api.ApiRepository;
 import com.llong.football.api.ResponseListener;
+import com.llong.football.bean.SubjectResponse;
 import com.llong.football.databinding.ActivityMainBinding;
 
 import javax.inject.Inject;
@@ -31,18 +32,17 @@ public class MainActivity extends BaseActivity {
         binding.setViewModel(this);
 
 
-        ResponseListener<String> observer=new ResponseListener<String>() {
+        apiRepository.login(new ResponseListener<SubjectResponse>() {
             @Override
-            public void onSuccess(String data) {
-                name.set(data);
+            public void onSuccess(SubjectResponse data) {
+                name.set(data.toString());
             }
 
             @Override
             public void onFail(Exception e) {
 
             }
-        };
-        apiRepository.login(observer, "");
+        }, "");
 
     }
 

@@ -1,5 +1,7 @@
 package com.llong.football.api;
 
+import com.llong.football.bean.BaseResponse;
+import com.llong.football.bean.SubjectResponse;
 import com.llong.football.http.HttpService;
 
 import java.io.IOException;
@@ -7,7 +9,6 @@ import java.io.IOException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -26,27 +27,26 @@ public class ApiRepository {
     public ApiRepository() {
     }
 
-    public void login(final ResponseListener listener, String username){
+    public void login(final ResponseListener<SubjectResponse> listener, String username){
 
         httpService.login(username)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ResponseObserver<ResponseBody>() {
+                .subscribe(new ResponseObserver<BaseResponse<SubjectResponse>>() {
 
                     @Override
-                    public void onSuccess(ResponseBody data) throws IOException {
-                        String value=data.string();
-                        listener.onSuccess(value);
+                    public void onSuccess(BaseResponse<SubjectResponse> data) throws IOException {
+                        listener.onSuccess(data.r_data);
                     }
 
                     @Override
                     public void onFail(Exception e) {
-
+                        listener.onFail(e);
                     }
                 });
     }
 
-    abstract class ResponseObserver<T> implements Observer {
+    abstract class ResponseObserver<T> implements Observer<T> {
 
         public abstract void onSuccess(T data) throws IOException;
 
@@ -63,10 +63,19 @@ public class ApiRepository {
         }
 
         @Override
-        public void onNext(Object object) {
+        public void onNext(T object) {
 
             try {
-                onSuccess((T) object);
+                if(object instanceof BaseResponse){
+                    if(((BaseResponse) object).r_code==0){
+                        onSuccess(object);
+                    }else{
+                        Exception exception=new Exception(((BaseResponse) object).r_info);
+                        onFail(exception);
+                    }
+                }else{
+                    onSuccess(object);
+                }
             } catch (IOException e) {
                 onFail(e);
             }

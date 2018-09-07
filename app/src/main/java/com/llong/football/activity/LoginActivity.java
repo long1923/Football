@@ -2,12 +2,12 @@ package com.llong.football.activity;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.llong.football.R;
 import com.llong.football.api.ApiRepository;
 import com.llong.football.api.ResponseListener;
+import com.llong.football.bean.SubjectResponse;
 import com.llong.football.databinding.ActivityLoginBinding;
 
 import javax.inject.Inject;
@@ -30,19 +30,17 @@ public class LoginActivity extends BaseActivity{
         binding= DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setViewModel(this);
 
-        ResponseListener<String> observer=new ResponseListener<String>() {
+        apiRepository.login(new ResponseListener<SubjectResponse>() {
             @Override
-            public void onSuccess(String data) {
-                name.set(data);
+            public void onSuccess(SubjectResponse data) {
+                name.set(data.toString());
             }
 
             @Override
             public void onFail(Exception e) {
 
             }
-
-        };
-        apiRepository.login(observer, "");
+        }, "");
     }
 
 }

@@ -1,14 +1,12 @@
 package com.llong.football.http;
 
 
-import com.llong.football.bean.User;
+import com.llong.football.bean.BaseResponse;
+import com.llong.football.bean.SubjectResponse;
 
-import okhttp3.ResponseBody;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -20,6 +18,6 @@ public interface HttpService {
     String REQUEST_HEADER = "Content-Type: application/json; charset=utf-8";
 
     @Headers({REQUEST_HEADER})
-    @POST("members/initial/get")
-    Observable<ResponseBody> login(@Body String username);
+    @POST("members/initial/get2")
+    Observable<BaseResponse<SubjectResponse>> login(@Body String username);
 }
