@@ -1,18 +1,18 @@
 package com.llong.football.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.llong.football.R;
 import com.llong.football.api.ApiRepository;
-import com.llong.football.api.DataObserver;
+import com.llong.football.api.ResponseListener;
 import com.llong.football.databinding.ActivityMainBinding;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
 
 
 public class MainActivity extends BaseActivity {
@@ -21,7 +21,6 @@ public class MainActivity extends BaseActivity {
     @Inject
     ApiRepository apiRepository;
 
-    public String value="000";
     public final ObservableField<String> name = new ObservableField<>();
 
 
@@ -32,14 +31,23 @@ public class MainActivity extends BaseActivity {
         binding.setViewModel(this);
 
 
-        DataObserver<String> observer=new DataObserver<String>() {
+        ResponseListener<String> observer=new ResponseListener<String>() {
             @Override
-            public void onObserver(String data) {
+            public void onSuccess(String data) {
                 name.set(data);
+            }
+
+            @Override
+            public void onFail(Exception e) {
+
             }
         };
         apiRepository.login(observer, "");
 
+    }
+
+    public void openLogin(View view){
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
 }

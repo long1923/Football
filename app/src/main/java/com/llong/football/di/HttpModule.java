@@ -32,6 +32,12 @@ public class HttpModule {
 
     @Singleton
     @Provides
+    public Gson providesGson(){
+        return new Gson();
+    }
+
+    @Singleton
+    @Provides
     public Retrofit providesRetrofit(Gson gson, OkHttpClient client){
         return new Retrofit.Builder()
                 .baseUrl("https://mytgw01apjpp-pre-cecandroid.azurewebsites.net/fch/android/")

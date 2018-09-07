@@ -4,6 +4,7 @@ package com.llong.football.http;
 import com.llong.football.bean.User;
 
 import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -20,5 +21,5 @@ public interface HttpService {
 
     @Headers({REQUEST_HEADER})
     @POST("members/initial/get")
-    Observable<ResponseBody> login(@Query("username") String username);
+    Observable<ResponseBody> login(@Body String username);
 }

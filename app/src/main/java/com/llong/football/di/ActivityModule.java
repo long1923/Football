@@ -14,11 +14,8 @@ import dagger.multibindings.IntoMap;
 /**
  * Created by cui-hl on 2018/08/31.
  */
-@Module(subcomponents = ActivitySubcomponent.class)
+@Module
 public abstract class ActivityModule {
 
-    @Binds
-    @IntoMap
-    @ActivityKey(MainActivity.class)
-    abstract AndroidInjector.Factory<? extends Activity> bind(ActivitySubcomponent.Builder builder);
+
 }

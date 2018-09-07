@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.DaggerAppCompatActivity;
 import dagger.android.support.HasSupportFragmentInjector;
 
 
@@ -18,7 +19,7 @@ import dagger.android.support.HasSupportFragmentInjector;
  * Created by cui-hl on 2018/08/31.
  */
 
-public class BaseActivity extends AppCompatActivity{
+public class BaseActivity extends DaggerAppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
