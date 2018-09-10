@@ -6,6 +6,8 @@ import android.app.Application;
 import com.llong.football.di.ApplicationComponent;
 import com.llong.football.di.DaggerApplicationComponent;
 
+import org.litepal.LitePal;
+
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
@@ -22,6 +24,7 @@ public class FootballApplication extends DaggerApplication{
     @Override
     public void onCreate() {
         super.onCreate();
+        LitePal.initialize(this);
 
     }
 

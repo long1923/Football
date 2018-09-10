@@ -1,7 +1,10 @@
 package com.llong.football.api;
 
-import com.llong.football.bean.BaseResponse;
-import com.llong.football.bean.SubjectResponse;
+import android.util.Log;
+
+import com.llong.football.db.BaseResponse;
+import com.llong.football.db.repository.DBRepository;
+import com.llong.football.db.SubjectResponse;
 import com.llong.football.http.HttpService;
 
 import java.io.IOException;
@@ -11,6 +14,7 @@ import javax.inject.Singleton;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -24,19 +28,36 @@ public class ApiRepository {
     HttpService httpService;
 
     @Inject
+    DBRepository dbRepository;
+
+    @Inject
     public ApiRepository() {
     }
 
-    public void login(final ResponseListener<SubjectResponse> listener, String username){
+    public void login(final ResponseListener<String> listener, String username){
 
         httpService.login(username)
+                .map(new Func1<BaseResponse<SubjectResponse>, BaseResponse<SubjectResponse> >() {
+                    @Override
+                    public BaseResponse<SubjectResponse> call(BaseResponse<SubjectResponse> data) {
+                        Log.i("Thread:save", Thread.currentThread().getName());
+                        try {
+                            dbRepository.saveSubject(data.r_data);
+                        } catch (Throwable e) {
+                            data=new BaseResponse<>();
+                            data.r_code=-1;
+                            data.r_info="Subject save failure";
+                        }
+                        return data;
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ResponseObserver<BaseResponse<SubjectResponse>>() {
-
                     @Override
                     public void onSuccess(BaseResponse<SubjectResponse> data) throws IOException {
-                        listener.onSuccess(data.r_data);
+                        Log.i("Thread:onSuccess", Thread.currentThread().getName());
+                        listener.onSuccess(ResponseListener.SUCCESS);
                     }
 
                     @Override

@@ -6,6 +6,8 @@ package com.llong.football.api;
 
 public abstract class ResponseListener<T>{
 
+    public static String SUCCESS="SUCCESS";
+
     public abstract void onSuccess(T data);
 
     public abstract void onFail(Exception e);

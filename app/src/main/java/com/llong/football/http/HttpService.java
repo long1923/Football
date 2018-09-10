@@ -1,8 +1,8 @@
 package com.llong.football.http;
 
 
-import com.llong.football.bean.BaseResponse;
-import com.llong.football.bean.SubjectResponse;
+import com.llong.football.db.BaseResponse;
+import com.llong.football.db.SubjectResponse;
 
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
