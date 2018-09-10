@@ -18,9 +18,9 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
+ * API请求工具类.
  * Created by cui-hl on 2018/08/30.
  */
-
 @Singleton
 public class ApiRepository {
 
@@ -34,72 +34,35 @@ public class ApiRepository {
     public ApiRepository() {
     }
 
-    public void login(final ResponseListener<String> listener, String username){
-
+    /**
+     * API请求处理。
+     *
+     * @param observer API请求结果的回调。
+     * @param username
+     */
+    public void login(ResponseObserver observer, String username) {
+        if (observer == null) {
+            return;
+        }
         httpService.login(username)
-                .map(new Func1<BaseResponse<SubjectResponse>, BaseResponse<SubjectResponse> >() {
+                .map(new Func1<BaseResponse<SubjectResponse>, BaseResponse<SubjectResponse>>() {
                     @Override
                     public BaseResponse<SubjectResponse> call(BaseResponse<SubjectResponse> data) {
-                        Log.i("Thread:save", Thread.currentThread().getName());
+                        //执行数据库插入操作(保存数据)。
                         try {
                             dbRepository.saveSubject(data.r_data);
                         } catch (Throwable e) {
-                            data=new BaseResponse<>();
-                            data.r_code=-1;
-                            data.r_info="Subject save failure";
+                            //数据保存失败，本次API请求失败告终。
+                            data = new BaseResponse<>();
+                            data.r_code = -1;
+                            data.r_info = "Subject save failure";
                         }
                         return data;
                     }
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ResponseObserver<BaseResponse<SubjectResponse>>() {
-                    @Override
-                    public void onSuccess(BaseResponse<SubjectResponse> data) throws IOException {
-                        Log.i("Thread:onSuccess", Thread.currentThread().getName());
-                        listener.onSuccess(ResponseListener.SUCCESS);
-                    }
-
-                    @Override
-                    public void onFail(Exception e) {
-                        listener.onFail(e);
-                    }
-                });
+                .subscribe(observer);
     }
 
-    abstract class ResponseObserver<T> implements Observer<T> {
-
-        public abstract void onSuccess(T data) throws IOException;
-
-        public abstract void onFail(Exception e);
-
-        @Override
-        public void onCompleted() {
-
-        }
-
-        @Override
-        public void onError(Throwable e) {
-
-        }
-
-        @Override
-        public void onNext(T object) {
-
-            try {
-                if(object instanceof BaseResponse){
-                    if(((BaseResponse) object).r_code==0){
-                        onSuccess(object);
-                    }else{
-                        Exception exception=new Exception(((BaseResponse) object).r_info);
-                        onFail(exception);
-                    }
-                }else{
-                    onSuccess(object);
-                }
-            } catch (IOException e) {
-                onFail(e);
-            }
-        }
-    }
 }

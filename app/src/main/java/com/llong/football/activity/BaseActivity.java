@@ -19,12 +19,23 @@ import dagger.android.support.HasSupportFragmentInjector;
  * Created by cui-hl on 2018/08/31.
  */
 
-public class BaseActivity extends DaggerAppCompatActivity {
+public abstract class BaseActivity extends DaggerAppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        onClear();
+    }
+
+    /**
+     * 清除对象引用
+     */
+    protected abstract void onClear();
 
 }

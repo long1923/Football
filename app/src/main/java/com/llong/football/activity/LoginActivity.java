@@ -6,8 +6,6 @@ import android.os.Bundle;
 
 import com.llong.football.R;
 import com.llong.football.api.ApiRepository;
-import com.llong.football.api.ResponseListener;
-import com.llong.football.db.SubjectResponse;
 import com.llong.football.databinding.ActivityLoginBinding;
 
 import javax.inject.Inject;
@@ -30,6 +28,11 @@ public class LoginActivity extends BaseActivity{
         binding= DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setViewModel(this);
 
+
+    }
+
+    @Override
+    protected void onClear() {
 
     }
 
