@@ -1,6 +1,5 @@
 package com.llong.football.di;
 
-import com.llong.football.activity.LoginActivity;
 import com.llong.football.activity.MainActivity;
 
 import dagger.Module;
@@ -16,6 +15,4 @@ public abstract class BuildersModule {
     @ContributesAndroidInjector(modules = ActivityModule.class)
     abstract MainActivity mainActivityInjector();
 
-    @ContributesAndroidInjector(modules = ActivityModule.class)
-    abstract LoginActivity loginActivityInjector();
 }

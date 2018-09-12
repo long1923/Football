@@ -6,4 +6,13 @@
     <color name="white">#FFFFFF</color>
     <color name="new_index_bg">#FF0000</color>
     <color name="new_title_line_bg">#CCCCCC</color>
+
+    <color name="black">#000000</color>
+
+    <color name="welcome_skip3">#32cd99</color>
+    <color name="sex_female">#fd8668</color>
+    <color name="div_gray">#ccc</color>
+    <color name="clubusertablebg2">#98ce30</color>
+    <color name="dark_bg">#8000</color>
+
 </resources>

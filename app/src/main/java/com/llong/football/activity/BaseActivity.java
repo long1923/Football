@@ -30,12 +30,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        onClear();
     }
 
-    /**
-     * 清除对象引用
-     */
-    protected abstract void onClear();
 
 }
