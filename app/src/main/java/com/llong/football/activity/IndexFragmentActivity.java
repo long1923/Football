@@ -19,65 +19,31 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.llong.football.R;
+import com.llong.football.databinding.ActivityIndexBinding;
 
 /**
  * tab页面框架
  * @author long
  *
  */
-public class IndexFragmentActivity extends FragmentActivity {
+public class IndexFragmentActivity extends BaseActivity {
 
-	/**
-	 * 页面总布局布局
-	 */
-	private RelativeLayout page_layout;
-	
-	/**
-	 * 标题栏布局
-	 */
-	private RelativeLayout titlebar_layout;
-	/**
-	 * 标题栏分割线
-	 */
-	private View titlebar_line;
-	
-	/**
-	 * 标题栏各标题容器
-	 */
-	protected TabHost mTabHost;
-	
 	/**
 	 * TabHost管理器对象
 	 */
 	protected TabHostManager hostManager;
 	
-	private static IndexFragmentActivity activity;
-	
-	protected List<TextView> fonts=new ArrayList<TextView>();
-	
-	private Handler handler=new Handler(){};
-	
-	
+
+	ActivityIndexBinding binding;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		activity=this;
 		setContentView(R.layout.activity_index);
-		page_layout=(RelativeLayout) findViewById(R.id.page_layout);
-		titlebar_layout=(RelativeLayout) findViewById(R.id.titlebar_layout);
-		titlebar_line=(View) findViewById(R.id.titlebar_line);
-		mTabHost = (TabHost) findViewById(R.id.tabhost_layout);
-		mTabHost.setup();
-		hostManager=new TabHostManager(this, mTabHost, android.R.id.tabcontent);
+
+		binding.tabHostLayout.setup();
+		hostManager=new TabHostManager(this, binding.tabHostLayout, android.R.id.tabcontent);
 		
-		boolean isFrist=false;
-		SharedPreferences sharedPreferences=getSharedPreferences("frist", 0);
-		String versionName=sharedPreferences.getString("versionName", "");
-		if(!"".equals(versionName)){
-			isFrist=false;
-		}else{
-			isFrist=true;
-		}
 	}
 
 	/**
@@ -89,7 +55,7 @@ public class IndexFragmentActivity extends FragmentActivity {
 	protected void setPageAndTitle(List<Class> fragments,List<View> titles,List<String> tabs){
 		int size=(fragments.size()>titles.size())?titles.size():fragments.size();
 		for(int i=0;i<size;i++){
-			hostManager.addTab(mTabHost.newTabSpec(tabs.get(i)).setIndicator(titles.get(i)), fragments.get(i), null);
+			hostManager.addTab(binding.tabHostLayout.newTabSpec(tabs.get(i)).setIndicator(titles.get(i)), fragments.get(i), null);
 		}
 		
 	}
@@ -98,7 +64,7 @@ public class IndexFragmentActivity extends FragmentActivity {
 	 * @param resid		资源id
 	 */
 	protected void setPageBackgroundResource(int resid){
-		page_layout.setBackgroundResource(resid);
+		binding.pageLayout.setBackgroundResource(resid);
 	}
 	
 	/**
@@ -106,7 +72,7 @@ public class IndexFragmentActivity extends FragmentActivity {
 	 * @param resid		资源id
 	 */
 	protected void setTitlebarLineColorResource(int resid){
-		titlebar_line.setBackgroundResource(resid);
+		binding.titlebarLine.setBackgroundResource(resid);
 	}
 	
 	/**
@@ -114,12 +80,12 @@ public class IndexFragmentActivity extends FragmentActivity {
 	 * @param resid		资源id
 	 */
 	public void setTitlebarColorResource(int resid){
-		titlebar_layout.setBackgroundResource(resid);
+		binding.titlebarLayout.setBackgroundResource(resid);
 	}
 	
 	
 	protected static class TabHostManager implements TabHost.OnTabChangeListener{
-		private final FragmentActivity mActivity;
+		private final IndexFragmentActivity mActivity;
 		private final TabHost mTabHost;
 		private final int mContainerId;
 		private final HashMap<String, TabInfo> mTabs = new HashMap<String, TabInfo>();
@@ -154,7 +120,7 @@ public class IndexFragmentActivity extends FragmentActivity {
 			}
 		}
 
-		public TabHostManager(FragmentActivity activity, TabHost tabHost, int containerId){
+		public TabHostManager(IndexFragmentActivity activity, TabHost tabHost, int containerId){
 			mActivity = activity;
 			mTabHost = tabHost;
 			mContainerId = containerId;
@@ -180,14 +146,14 @@ public class IndexFragmentActivity extends FragmentActivity {
 		public void onTabChanged(String tabId){
 			TabInfo newTab = mTabs.get(tabId);
 			if("index".equals(tabId)){
-				activity.setTitlebarColorResource(R.color.new_index_bg);
-				activity.setTitlebarLineColorResource(R.color.new_index_bg);
+				mActivity.setTitlebarColorResource(R.color.new_index_bg);
+				mActivity.setTitlebarLineColorResource(R.color.new_index_bg);
 			}else if("special".equals(tabId)){
-				activity.setTitlebarColorResource(R.color.white);
-				activity.setTitlebarLineColorResource(R.color.new_title_line_bg);
+				mActivity.setTitlebarColorResource(R.color.white);
+				mActivity.setTitlebarLineColorResource(R.color.new_title_line_bg);
 			}else if("me".equals(tabId)){
-				activity.setTitlebarColorResource(R.color.white);
-				activity.setTitlebarLineColorResource(R.color.new_title_line_bg);
+				mActivity.setTitlebarColorResource(R.color.white);
+				mActivity.setTitlebarLineColorResource(R.color.new_title_line_bg);
 			}
 			if (mLastTab != newTab){
 				FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
@@ -212,15 +178,4 @@ public class IndexFragmentActivity extends FragmentActivity {
 		}
 	}
 	
-	public String getVersion(Context context) {
-	     try {
-	         PackageManager manager = context.getPackageManager();
-	         PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-	         String version = info.versionName;
-	         return version;
-	     } catch (Exception e) {
-	         e.printStackTrace();
-	         return "";
-	     }
-	 }
 }
