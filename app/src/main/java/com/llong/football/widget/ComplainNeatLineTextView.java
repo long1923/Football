@@ -1,4 +1,4 @@
-package com.llong.football.view;
+package com.llong.football.widget;
 
 import android.content.Context;
 import android.text.TextUtils;

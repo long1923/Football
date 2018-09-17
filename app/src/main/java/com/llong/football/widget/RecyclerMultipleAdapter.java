@@ -1,4 +1,4 @@
-package com.llong.football.view;
+package com.llong.football.widget;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -24,7 +24,7 @@ public class RecyclerMultipleAdapter<T> extends RecyclerView.Adapter<RecyclerVie
     public final static int RecommendLayoutId= R.layout.item_recommend;
 
     //底がloading
-    public final static int footerLayoutId= R.layout.layout_loading;
+    public final static int footerLayoutId= R.layout.layout_footer;
 
     private List<T> mData;
 

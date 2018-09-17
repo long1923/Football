@@ -11,6 +11,7 @@ import com.llong.football.api.ApiRepository;
 import com.llong.football.api.ResponseObserver;
 import com.llong.football.db.bean.Subject;
 import com.llong.football.db.repository.DBRepository;
+import com.llong.football.di.DataException;
 import com.llong.football.viewmodel.item.RecommendViewModel;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import rx.functions.Action1;
 /**
  * Created by cui-hl on 2018/09/12.
  */
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends BaseViewModel {
 
     @Inject
     ApiRepository apiRepository;
@@ -38,7 +39,6 @@ public class MainViewModel extends ViewModel {
 
     private MutableLiveData<List<RecommendViewModel>> dataLiveData = new MutableLiveData<>();
 
-    private MutableLiveData<String> errorLiveData = new MutableLiveData<>();
 
     @Inject
     public MainViewModel() {
@@ -63,7 +63,7 @@ public class MainViewModel extends ViewModel {
     public void initData(){
         //如果画面数据使用缓存，API请求回来的数据不直接响应在画面中。
         //API请求回来的数据先保存到数据库中，然后画面得到API请求成功的回调后，查询数据库做画面内容展示。
-        getList();
+//        getList();
         requestData();
     }
 
@@ -114,10 +114,9 @@ public class MainViewModel extends ViewModel {
         }
 
         @Override
-        public void onFail(Exception e) {
-            //API请求失败
-            String value=e.getMessage();
-            errorLiveData.setValue(value);
+        public void onFail(DataException e) {
+            //API请求异常
+            errorLiveData.setValue(e);
         }
     }
 }

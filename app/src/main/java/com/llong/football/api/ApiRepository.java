@@ -5,6 +5,7 @@ import android.util.Log;
 import com.llong.football.db.BaseResponse;
 import com.llong.football.db.repository.DBRepository;
 import com.llong.football.db.SubjectResponse;
+import com.llong.football.di.DataException;
 import com.llong.football.http.HttpService;
 
 import java.io.IOException;
@@ -48,6 +49,7 @@ public class ApiRepository {
                 .map(new Func1<BaseResponse<SubjectResponse>, BaseResponse<SubjectResponse>>() {
                     @Override
                     public BaseResponse<SubjectResponse> call(BaseResponse<SubjectResponse> data) {
+
                         //执行数据库插入操作(保存数据)。
                         try {
                             dbRepository.saveSubject(data.r_data);
@@ -55,7 +57,7 @@ public class ApiRepository {
                             //数据保存失败，本次API请求失败告终。
                             data = new BaseResponse<>();
                             data.r_code = -1;
-                            data.r_info = "Subject save failure";
+                            data.exception = new DataException(DataException.Type.DB_STORAGE_ERROR);
                         }
                         return data;
                     }

@@ -1,6 +1,7 @@
 package com.llong.football.api;
 
 import com.llong.football.db.BaseResponse;
+import com.llong.football.di.DataException;
 
 import java.io.IOException;
 
@@ -17,7 +18,7 @@ public abstract class ResponseObserver <T> implements Observer<T> {
 
     public abstract void onSuccess(T data) throws IOException;
 
-    public abstract void onFail(Exception e);
+    public abstract void onFail(DataException e);
 
     @Override
     public void onCompleted() {
@@ -26,7 +27,7 @@ public abstract class ResponseObserver <T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-
+        onFail(new DataException(DataException.Type.NETWORK_ERROR, e));
     }
 
     @Override
@@ -37,7 +38,7 @@ public abstract class ResponseObserver <T> implements Observer<T> {
                 if(((BaseResponse) object).r_code==0){
                     onSuccess(object);
                 }else{
-                    Exception exception=new Exception(((BaseResponse) object).r_info);
+                    DataException exception=new DataException(DataException.Type.RESPONSE_PARAM_ERROR, ((BaseResponse) object).r_info);
                     onFail(exception);
                 }
             }else{
@@ -45,7 +46,7 @@ public abstract class ResponseObserver <T> implements Observer<T> {
             }
         } catch (IOException e) {
             //数据处理过程中发生异常。
-            onFail(e);
+            onFail(new DataException(DataException.Type.DATA_PROCESS_ERROR, e.getMessage()));
         }
     }
 }

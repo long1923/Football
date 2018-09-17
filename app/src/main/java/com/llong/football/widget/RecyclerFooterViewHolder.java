@@ -1,4 +1,4 @@
-package com.llong.football.view;
+package com.llong.football.widget;
 
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
