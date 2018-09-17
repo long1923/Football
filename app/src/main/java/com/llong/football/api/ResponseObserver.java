@@ -36,7 +36,7 @@ public abstract class ResponseObserver <T> implements Observer<T> {
         try {
             if(object instanceof BaseResponse){
                 if(((BaseResponse) object).r_code==0){
-                    onSuccess(object);
+                    onSuccess((T) ((BaseResponse) object).r_data);
                 }else{
                     DataException exception=new DataException(DataException.Type.RESPONSE_PARAM_ERROR, ((BaseResponse) object).r_info);
                     onFail(exception);

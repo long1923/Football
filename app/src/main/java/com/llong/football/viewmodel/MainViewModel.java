@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.llong.football.activity.MainActivity;
 import com.llong.football.api.ApiRepository;
 import com.llong.football.api.ResponseObserver;
+import com.llong.football.db.SubjectResponse;
 import com.llong.football.db.bean.Subject;
 import com.llong.football.db.repository.DBRepository;
 import com.llong.football.di.DataException;
@@ -106,11 +107,18 @@ public class MainViewModel extends BaseViewModel {
      * 定义API请求Observer。
      * 使用内部类的原因：实例化对象在activity销毁时清除内存引用，避免内存泄漏。
      */
-    class APIResponseObserver extends ResponseObserver<String> {
+    class APIResponseObserver extends ResponseObserver<SubjectResponse> {
         @Override
-        public void onSuccess(String data) {
+        public void onSuccess(SubjectResponse data) {
             //API请求成功回调，访问数据库展示画面内容。
-            getList();
+//            getList();
+            List<RecommendViewModel> list=new ArrayList<>();
+            for(Subject subject:data.paper){
+                RecommendViewModel viewModel=new RecommendViewModel();
+                viewModel.setSubject(subject);
+                list.add(viewModel);
+            }
+            dataLiveData.setValue(list);
         }
 
         @Override
